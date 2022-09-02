@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Repositories\CustomerRepository;
 
 class CustomerController extends Controller
 {
+    /**
+     * @var CustomerRepository
+     */
+    private $customerRepository;
+
+    public function __construct(CustomerRepository $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,18 +26,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::orderBy('name')
-            ->with('user')
-            ->where('active', 1)
-            ->get()
-            ->map(function ($customer){
-                return [
-                    'customer_id' => $customer->id,
-                    'customer_name' => $customer->name,
-                    'created_by' => $customer->user->email,
-                    'last_updated' => $customer->updated_at->diffForHumans(),
-                ];
-            });
+        $customers = $this->customerRepository->all();
+
         return $customers;
     }
 
@@ -57,9 +58,9 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show($customer)
     {
-        //
+        return $this->customerRepository->findById($customer);
     }
 
     /**
