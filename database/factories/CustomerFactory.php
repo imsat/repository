@@ -17,6 +17,7 @@ class CustomerFactory extends Factory
         return [
             'user_id' => User::factory(),
             'name' => $this->faker->name(),
+            'user_name' => $this->faker->userName(),
             'active' => random_int(0, 1)
         ];
     }

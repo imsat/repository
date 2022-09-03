@@ -17,6 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->string('user_name')->nullable();
             $table->timestamp('contacted_at')->nullable();
             $table->unsignedSmallInteger('active')->index();
             $table->timestamps();

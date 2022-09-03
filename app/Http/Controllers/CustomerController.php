@@ -27,7 +27,6 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = $this->customerRepository->all();
-
         return $customers;
     }
 
@@ -64,6 +63,17 @@ class CustomerController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function showByUserName($userName)
+    {
+        return $this->customerRepository->findByUserName($userName);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Customer  $customer
@@ -81,9 +91,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update($customerId)
     {
-        //
+        $this->customerRepository->update($customerId);
+        return redirect('/customers/' . $customerId);
     }
 
     /**
@@ -92,8 +103,9 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy($customerId)
     {
-        //
+        $this->customerRepository->delete($customerId);
+        return redirect()->to('customers');
     }
 }
