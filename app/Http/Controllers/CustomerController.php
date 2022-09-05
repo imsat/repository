@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use App\Repositories\CustomerRepository;
+use App\Repositories\CustomerRepositoryInterface;
 
 class CustomerController extends Controller
 {
     /**
-     * @var CustomerRepository
+     * @var CustomerRepositoryInterface
      */
     private $customerRepository;
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(CustomerRepositoryInterface $customerRepository)
     {
         $this->customerRepository = $customerRepository;
     }
